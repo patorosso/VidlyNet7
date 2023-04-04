@@ -1,0 +1,129 @@
+# Visual Studio Code files
+.vscode/
+*.vscode/
+*.code-workspace
+
+# Visual Studio files
+*.suo
+*.user
+*.sln.docstates
+*.bak
+*.cache
+*.csproj.user
+*.dbmdl
+*.jfm
+*.psess
+*.vsp
+*.vspx
+*.vssscc
+*.xsscc
+*.sln
+
+# .NET Core files
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.userprefs
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.log
+*.npmrc
+*.tscn
+
+# NuGet packages
+*.nupkg
+packages/
+*.psmdcp
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+[Tt]est[Rr]esult*/
+[Oo]bj/
+[Oo]ut/
+[Tt]emp/
+*.build
+*.rptproj.dsc
+*.rptproj.rsconfig
+buildlog.htm
+
+# Logs
+*.log
+*.logs
+
+# Unity3D generated files
+Temp/
+Assets/AssetStoreTools*
+
+# Rider
+.idea/
+*.sln.iml
+
+# Resharper
+_ReSharper*/
+
+# GhostDoc plugin settings
+[Gg]host[Dd]oc*
+
+# DocProject plugin settings
+[Dd]ocProject*
+
+# GitVersion
+.gitversion
+
+# Microsoft Azure Build Output
+csx
+*.build.csdef
+
+# Click-Once Directory
+publish/
+
+# Publish Web Output
+*.PublishSettings
+
+# ReSharper
+**/packages/
+_ReSharper*/
+*.ReSharper.*
+*.DotSettings.user
+
+# dotCover
+*.dotCover
+
+# Test files
+*.testsettings
+test-results/
+[Bb]uild[Ll]og.*
+
+# NCrunch
+_NCrunch_*
+*.ncrunch*
+.*crunch*.local.xml
+nCrunchTemp_*
+
+# TeamCity
+_TeamCity*
+
+# Visual Studio 2017
+.vs/
+
+# .NET Core Scaffolding
+ScaffoldingReadMe.txt
+
+# Others
+bower_components/
+*.bak
+*.zip
+*.7z
+*.nupkg
+*.db
