@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using mox_mvc_crud.Models;
+using VidlyNet7.Models;
+using VidlyNet7.ViewModels;
 
-namespace mox_mvc_crud.Controllers
+namespace VidlyNet7.Controllers
 {
 	public class MoviesController : Controller
 	{
@@ -9,12 +10,23 @@ namespace mox_mvc_crud.Controllers
 		public IActionResult Random()
 		{
 			var movie = new Movie() { Name = "Inception" };
+			var customers = new List<Customer>
+			{
+				new Customer { Name = "Customer 1"},
+				new Customer { Name = "Customer 2"}
 
-			return View(movie);
+		};
+			var viewModel = new RandomMovieViewModel
+			{
+				Movie = movie,
+				Customers = customers
+			};
+
+			return View(viewModel);
 		}
-		public ActionResult Edit(int id) => Content("id=" + id);
+		public IActionResult Edit(int id) => Content("id=" + id);
 		//movies
-		public ActionResult Index(int? pageIndex, string sortBy)
+		public IActionResult Index(int? pageIndex, string sortBy)
 		{
 			if (!pageIndex.HasValue)
 				pageIndex = 1;
