@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using VidlyNet7.Models;
 using VidlyNet7.ViewModels;
 
@@ -45,10 +44,25 @@ namespace VidlyNet7.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Movie movie)
         {
-            movie.DateAdded = DateTime.Now;
-            _context.Movies.Add(movie);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                movie.DateAdded = DateTime.Now;
+                _context.Movies.Add(movie);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var genres = _context.Genres.ToList();
+
+                var viewModel = new MovieFormViewModel
+                {
+                    Genres = genres,
+                    Movie = movie
+                };
+                return View(viewModel);
+            }
+
 
         }
 
@@ -88,21 +102,36 @@ namespace VidlyNet7.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Movie movie)
         {
-            Debug.WriteLine($"movie.Id = {movie.Id}");
+            if (ModelState.IsValid)
+            {
+                var movieInDb = _context.Movies.SingleOrDefault(m => m.Id == movie.Id);
 
-            var movieInDb = _context.Movies.SingleOrDefault(m => m.Id == movie.Id);
+                if (movieInDb == null)
+                    return NotFound();
 
-            if (movieInDb == null)
-                return NotFound();
-
-            movieInDb.Name = movie.Name;
-            movieInDb.ReleaseDate = movie.ReleaseDate;
-            movieInDb.GenreId = movie.GenreId;
-            movieInDb.Stock = movie.Stock;
+                movieInDb.Name = movie.Name;
+                movieInDb.ReleaseDate = movie.ReleaseDate;
+                movieInDb.GenreId = movie.GenreId;
+                movieInDb.Stock = movie.Stock;
 
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var genres = _context.Genres.ToList();
+
+                var viewModel = new MovieFormViewModel
+                {
+                    Genres = genres,
+                    Movie = movie
+                };
+                return View(viewModel);
+            }
+
+
+
         }
 
 

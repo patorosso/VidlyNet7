@@ -11,17 +11,18 @@ namespace VidlyNet7.Models
         [Required(ErrorMessage = "El campo es obligatorio.")]
         public string Name { get; set; } = null!;
 
-        public Genre Genre { get; set; }
-
-        public byte GenreId { get; set; }
+        public Genre? Genre { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio.")]
-        public DateTime ReleaseDate { get; set; }
+        public byte? GenreId { get; set; }
+
+        [Required(ErrorMessage = "El campo es obligatorio.")]
+        public DateTime? ReleaseDate { get; set; }
 
         public DateTime DateAdded { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio.")]
-        public short Stock { get; set; }
+        public short? Stock { get; set; }
     }
 
 

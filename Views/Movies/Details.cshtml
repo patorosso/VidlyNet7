@@ -7,7 +7,7 @@
 
 <ul>
     <li>Genre: @Model.Genre</li>
-    <li>Release Date: @Model.ReleaseDate.ToString("d")</li>
+    <li>Release Date: @Model.ReleaseDate?.ToString("d")</li>
     <li>Date Added: @Model.DateAdded.ToString("d")</li>
     <li>Number in Stock: @Model.Stock</li>
     
