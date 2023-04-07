@@ -8,5 +8,6 @@ namespace VidlyNet7.Models
 
         public DbSet<Customer> Customers => Set<Customer>();
         public DbSet<Movie> Movies => Set<Movie>();
+
     }
 }

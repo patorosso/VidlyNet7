@@ -26,7 +26,7 @@ else
                     <td>
                         <a asp-controller="Customers" asp-action="Details" asp-route-id="@customer.Id">@customer.Name</a>
                     </td>
-                    <td>@customer.MembershipTypeId</td>
+                    <td>@customer.MembershipType.Name</td>
                 </tr>
             }
         </tbody>

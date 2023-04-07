@@ -6,8 +6,8 @@
 <h1>@Model.Name</h1>
 
 <ul>
-    <li>Membership Type: @Model.MembershipTypeId</li>
-    <li>Birthdate: @Model.Birthdate.ToString("d")</li>
+    <li>Membership Type: @Model.MembershipType.Name</li>
+    <li>Birthdate: @Model.Birthdate?.ToString("d")</li>
 </ul>
 
 

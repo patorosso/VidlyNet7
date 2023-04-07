@@ -21,13 +21,14 @@ namespace VidlyNet7.Controllers
         public IActionResult Index()
         {
             var customers = _context.Customers.Include(c => c.MembershipType).ToList();
+
             return View(customers);
         }
 
         [Route("Customers/Details/{paramId}")]
         public IActionResult Details(int paramId)
         {
-            var customer = _context.Customers.FirstOrDefault(c => c.Id == paramId);
+            var customer = _context.Customers.Include(c => c.MembershipType).FirstOrDefault(c => c.Id == paramId);
 
             if (customer != null)
                 return View(customer);
