@@ -5,27 +5,23 @@ namespace VidlyNet7.Controllers
 {
     public class CustomersController : Controller
     {
-        public IActionResult Index()
+        public IEnumerable<Customer> CustomersList()
         {
-            List<Customer> customers = new()
+            return new List<Customer>
             {
                 new Customer { Id= 1, Name = "John Smith" },
                 new Customer { Id= 2, Name = "Mary Williams" }
             };
-
-            return View(customers);
+        }
+        public IActionResult Index()
+        {
+            return View(CustomersList());
         }
 
         [Route("Customers/Details/{paramId}")]
         public IActionResult Details(int paramId)
         {
-            List<Customer> customers = new()
-            {
-                new Customer { Id= 1, Name = "John Smith" },
-                new Customer { Id= 2, Name = "Mary Williams" }
-            };
-
-            var customer = customers.FirstOrDefault(c => c.Id == paramId);
+            var customer = CustomersList().FirstOrDefault(c => c.Id == paramId);
 
             if (customer != null)
                 return View(customer);
