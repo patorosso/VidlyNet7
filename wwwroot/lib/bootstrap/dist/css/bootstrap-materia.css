@@ -10987,7 +10987,7 @@ textarea.form-control-lg {
 }
 
 .btn-primary {
-  position: relative;
+    margin-bottom: 12rem;
 }
 .btn-primary:focus {
   background-color: #2196f3;

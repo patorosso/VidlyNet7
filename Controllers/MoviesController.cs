@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VidlyNet7.Models;
+using VidlyNet7.ViewModels;
 
 namespace VidlyNet7.Controllers
 {
@@ -20,7 +22,7 @@ namespace VidlyNet7.Controllers
 
         public IActionResult Index()
         {
-            var movies = _context.Movies.ToList();
+            var movies = _context.Movies.Include(c => c.Genre).ToList();
             return View(movies);
         }
 
@@ -37,5 +39,17 @@ namespace VidlyNet7.Controllers
 
 
         }
+
+        public IActionResult New()
+        {
+            var genres = _context.Genres.ToList();
+
+            var viewModel = new MovieFormViewModel
+            {
+                Genres = genres
+            };
+            return View(viewModel);
+        }
+
     }
 }
