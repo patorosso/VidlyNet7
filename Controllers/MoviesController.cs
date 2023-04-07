@@ -1,39 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VidlyNet7.Models;
-using VidlyNet7.ViewModels;
 
 namespace VidlyNet7.Controllers
 {
-	public class MoviesController : Controller
-	{
-		// GET: Movies/Random
-		public IActionResult Random()
-		{
-			var movie = new Movie() { Name = "Inception" };
-			var customers = new List<Customer>
-			{
-				new Customer { Name = "Customer 1"},
-				new Customer { Name = "Customer 2"}
+    public class MoviesController : Controller
+    {
+        public IActionResult Edit(int id) => Content("id=" + id);
 
-		};
-			var viewModel = new RandomMovieViewModel
-			{
-				Movie = movie,
-				Customers = customers
-			};
+        public IActionResult Index()
+        {
+            List<Movie> movies = new()
+            {
+                new Movie { Id= 1, Name = "Shrek" },
+                new Movie { Id= 2, Name = "Wall-e" }
+            };
 
-			return View(viewModel);
-		}
-		public IActionResult Edit(int id) => Content("id=" + id);
-		//movies
-		public IActionResult Index(int? pageIndex, string sortBy)
-		{
-			if (!pageIndex.HasValue)
-				pageIndex = 1;
-
-			if (String.IsNullOrWhiteSpace(sortBy)) sortBy = "Name";
-
-			return Content(String.Format("pageIndex={0}&sortBy={1}", pageIndex, sortBy));
-		}
-	}
+            return View(movies);
+        }
+    }
 }
