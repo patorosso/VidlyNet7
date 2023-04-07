@@ -1,0 +1,35 @@
+﻿@model VidlyNet7.ViewModels.MovieFormViewModel
+
+<h2>Edit Movie</h2>
+
+<div class="col-sm-5">
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Movie.Id" />
+        <div class="form-group">
+            <label asp-for="Movie.Name" class="form-label mt-4" style="font-weight: bold;">Name:</label>
+            <input asp-for="Movie.Name" class="form-control" placeholder="Enter name" />
+            <span asp-validation-for="Movie.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Movie.ReleaseDate" class="form-label mt-4" style="font-weight: bold;">Date of Release:</label>
+            <input asp-for="Movie.ReleaseDate" class="form-control" type="date" />
+            <span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Movie.GenreId" class="form-label mt-4" style="font-weight: bold;">Genre:</label>
+            <select asp-for="Movie.GenreId" class="form-control"
+                    asp-items="@(new SelectList(Model.Genres,"Id","Name"))">
+                <option value=""></option>
+            </select>
+            <span asp-validation-for="Movie.GenreId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Movie.Stock" class="form-label mt-4" style="font-weight: bold;">Number in Stock:</label>
+            <input asp-for="Movie.Stock" class="form-control" />
+            <span asp-validation-for="Movie.Stock" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </div>
+    </form>
+</div>

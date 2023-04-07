@@ -5,6 +5,8 @@
 }
 <h1>Movies</h1>
 
+<a asp-controller="Movies" asp-action="Create" class="btn btn-primary text-white" >New Movie</a>
+
 @if (Model.Count == 0)
 {
     <h2>We don't have any movies yet.</h2>
@@ -23,8 +25,8 @@ else
             @foreach (var movie in Model)
             {
                 <tr>
-                    <td><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Name</a></td>
-                    <td>@movie.Genre</td>
+                    <td><a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id">@movie.Name</a></td>
+                    <td>@movie.Genre.Name</td>
                 </tr>
             }
         </tbody>
