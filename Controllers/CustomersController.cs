@@ -6,6 +6,7 @@ namespace VidlyNet7.Controllers
 {
     public class CustomersController : Controller
     {
+
         private readonly ApplicationDbContext _context;
 
         public CustomersController(ApplicationDbContext _context)
@@ -23,12 +24,14 @@ namespace VidlyNet7.Controllers
             var customers = _context.Customers.Include(c => c.MembershipType).ToList();
 
             return View(customers);
+
         }
 
         [Route("Customers/Details/{paramId}")]
         public IActionResult Details(int paramId)
         {
             var customer = _context.Customers.Include(c => c.MembershipType).FirstOrDefault(c => c.Id == paramId);
+
 
             if (customer != null)
                 return View(customer);
