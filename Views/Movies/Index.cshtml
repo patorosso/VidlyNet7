@@ -23,7 +23,7 @@ else
             @foreach (var movie in Model)
             {
                 <tr>
-                    <td>@movie.Name</td>
+                    <td><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Name</a></td>
                     <td>@movie.Genre</td>
                 </tr>
             }
