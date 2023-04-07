@@ -1,0 +1,31 @@
+﻿@model List<VidlyNet7.Models.Movie>
+@{
+    ViewBag.Title = "Movies";
+    Layout = "_Layout";
+}
+<h1>Movies</h1>
+
+@if (Model.Count == 0)
+{
+    <h2>We don't have any movies yet.</h2>
+}
+
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Movies</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in Model)
+            {
+                <tr>
+                    <td>@movie.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
