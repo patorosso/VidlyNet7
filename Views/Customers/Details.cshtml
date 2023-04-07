@@ -4,3 +4,16 @@
     Layout = "_Layout";
 }
 <h1>@Model.Name</h1>
+
+<ul>
+    <li>Membership Type: @Model.MembershipType.Name</li>
+    @if(Model.Birthdate != null)
+    {
+        <li>Birthdate: @Model.Birthdate?.ToString("d")</li>
+    }
+    
+</ul>
+
+
+
+    
