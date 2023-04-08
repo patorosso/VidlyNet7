@@ -72,6 +72,7 @@ namespace VidlyNet7.Controllers
 
             var viewModel = new MovieFormViewModel
             {
+                Movie = new Movie(),
                 Genres = genres
             };
             return View(viewModel);
