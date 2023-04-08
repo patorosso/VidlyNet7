@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VidlyNet7.Models;
 
 namespace VidlyNet7.Controllers.Api
@@ -9,9 +10,9 @@ namespace VidlyNet7.Controllers.Api
     {
         private readonly ApplicationDbContext _context;
 
-        public MoviesController()
+        public MoviesController(ApplicationDbContext _db)
         {
-            _context = new ApplicationDbContext();
+            _context = _db;
         }
 
 
@@ -56,18 +57,26 @@ namespace VidlyNet7.Controllers.Api
             if (movie == null)
                 return BadRequest(movie);
 
-            if (movie.Id > 0)
+            if (movie.Id == 0)
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
+            var dbId = _context.Movies.SingleOrDefault(c => c.Id == movie.Id);
+
+            if (dbId != null && movie.Id == dbId.Id)
+            {
+                ModelState.AddModelError("Id existente", "Ya existe este id, por favor pruebe otro.");
+                return BadRequest(ModelState);
+            }
 
             _context.Movies.Add(movie);
+            _context.SaveChanges();
 
             return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
         }
 
 
         // PUT /api/movies/id
-        [HttpDelete("{id:int}")]
+        [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -76,13 +85,13 @@ namespace VidlyNet7.Controllers.Api
             if (id != movie.Id || movie == null)
                 return BadRequest();
 
-            var movieInDb = _context.Movies.SingleOrDefault(x => x.Id == id);
+            var movieInDb = _context.Movies.AsNoTracking().SingleOrDefault(x => x.Id == id);
 
             if (movieInDb == null)
                 return NotFound();
 
             _context.Movies.Update(movie);
-
+            _context.SaveChanges();
             return NoContent();
         }
 
@@ -101,6 +110,8 @@ namespace VidlyNet7.Controllers.Api
 
             if (movie == null)
                 return NotFound();
+
+            _context.Movies.ExecuteDeleteAsync();
 
             return NoContent();
         }
