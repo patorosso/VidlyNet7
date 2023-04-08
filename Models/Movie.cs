@@ -17,6 +17,7 @@ namespace VidlyNet7.Models
         public byte? GenreId { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio.")]
+        [MovieYearRange]
         public DateTime? ReleaseDate { get; set; } = DateTime.MinValue;
 
         public DateTime DateAdded { get; set; }
