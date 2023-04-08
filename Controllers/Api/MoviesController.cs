@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using VidlyNet7.Dtos;
 using VidlyNet7.Models;
 
 namespace VidlyNet7.Controllers.Api
@@ -9,19 +11,23 @@ namespace VidlyNet7.Controllers.Api
     public class MoviesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public MoviesController(ApplicationDbContext _db)
+        public MoviesController(ApplicationDbContext context, IMapper mapper)
         {
-            _context = _db;
+            _context = context;
+            _mapper = mapper;
         }
 
 
         // GET /api/movies/
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies()
         {
-            return Ok(await _context.Movies.ToListAsync());
+            IEnumerable<Movie> movieList = await _context.Movies.ToListAsync();
+
+            return Ok(_mapper.Map<IEnumerable<MovieDto>>(movieList));
         }
 
 
@@ -30,7 +36,7 @@ namespace VidlyNet7.Controllers.Api
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Movie>> GetMovie(int id)
+        public async Task<ActionResult<MovieDto>> GetMovie(int id)
         {
             if (id == 0)
                 return BadRequest();
@@ -40,7 +46,7 @@ namespace VidlyNet7.Controllers.Api
             if (movie == null)
                 return NotFound();
 
-            return Ok(movie);
+            return Ok(_mapper.Map<MovieDto>(movie));
         }
 
 
@@ -49,29 +55,31 @@ namespace VidlyNet7.Controllers.Api
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Movie>> PostMovie([FromBody] Movie movie)
+        public async Task<ActionResult<MovieDto>> PostMovie([FromBody] MovieDto movieDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (movie == null)
-                return BadRequest(movie);
+            if (movieDto == null)
+                return BadRequest(movieDto);
 
-            if (movie.Id == 0)
+            if (movieDto.Id == 0)
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
-            var dbId = await _context.Movies.SingleOrDefaultAsync(c => c.Id == movie.Id);
+            var dbId = await _context.Movies.SingleOrDefaultAsync(c => c.Id == movieDto.Id);
 
-            if (dbId != null && movie.Id == dbId.Id)
+            if (dbId != null && movieDto.Id == dbId.Id)
             {
                 ModelState.AddModelError("Id existente", "Ya existe este id, por favor pruebe otro.");
                 return BadRequest(ModelState);
             }
 
-            await _context.Movies.AddAsync(movie);
+            Movie postedMovie = _mapper.Map<Movie>(movieDto); // creo un modelo de Movie usando el movieDto del param de la func
+
+            await _context.Movies.AddAsync(postedMovie);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
+            return CreatedAtAction(nameof(GetMovie), new { id = movieDto.Id }, movieDto);
         }
 
 
@@ -80,9 +88,9 @@ namespace VidlyNet7.Controllers.Api
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateMovie(int id, [FromBody] Movie movie)
+        public async Task<IActionResult> UpdateMovie(int id, [FromBody] MovieDto movieDto)
         {
-            if (id != movie.Id || movie == null)
+            if (id != movieDto.Id || movieDto == null)
                 return BadRequest();
 
             var movieInDb = await _context.Movies.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
@@ -90,7 +98,9 @@ namespace VidlyNet7.Controllers.Api
             if (movieInDb == null)
                 return NotFound();
 
-            _context.Movies.Update(movie);
+            Movie updatedMovie = _mapper.Map<Movie>(movieDto);
+
+            _context.Movies.Update(updatedMovie);
             await _context.SaveChangesAsync();
             return NoContent();
         }

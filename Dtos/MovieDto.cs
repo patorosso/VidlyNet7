@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using VidlyNet7.Models;
 
 namespace VidlyNet7.Dtos
 {
@@ -16,13 +15,13 @@ namespace VidlyNet7.Dtos
         public byte? GenreId { get; set; }
 
         [Required]
-        [MovieYearRange]
+
         public DateTime? ReleaseDate { get; set; } = DateTime.MinValue;
 
         public DateTime DateAdded { get; set; }
 
         [Required]
-        [StockRange]
+
         public short? Stock { get; set; } = 0;
     }
 }

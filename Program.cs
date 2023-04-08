@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using VidlyNet7;
 using VidlyNet7.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
 
 builder.Services.AddDbContext<ApplicationDbContext>
     (options => options.UseMySql("Server=localhost;Port=3306;Database=vidly;Uid=root;Pwd=cordillera;", serverVersion, options => options.EnableRetryOnFailure()));
+
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 var app = builder.Build();
 
