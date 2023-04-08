@@ -10,6 +10,9 @@ namespace VidlyNet7
         {
             CreateMap<Movie, MovieDto>();
             CreateMap<MovieDto, Movie>();
+            CreateMap<Genre, GenreDto>();
+
+
         }
     }
 }
