@@ -25,7 +25,9 @@ namespace VidlyNet7.Controllers.Api
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies()
         {
-            IEnumerable<Movie> movieList = await _context.Movies.ToListAsync();
+            IEnumerable<Movie> movieList = await _context.Movies
+                .Include(c => c.Genre)
+                .ToListAsync();
 
             return Ok(_mapper.Map<IEnumerable<MovieDto>>(movieList));
         }
@@ -41,7 +43,9 @@ namespace VidlyNet7.Controllers.Api
             if (id == 0)
                 return BadRequest();
 
-            var movie = await _context.Movies.SingleOrDefaultAsync(x => x.Id == id);
+            var movie = await _context.Movies
+                .Include(c => c.Genre)
+                .SingleOrDefaultAsync(x => x.Id == id);
 
             if (movie == null)
                 return NotFound();

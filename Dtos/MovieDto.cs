@@ -14,6 +14,8 @@ namespace VidlyNet7.Dtos
         [Required]
         public byte? GenreId { get; set; }
 
+        public GenreDto Genre { get; set; }
+
         [Required]
 
         public DateTime? ReleaseDate { get; set; } = DateTime.MinValue;
