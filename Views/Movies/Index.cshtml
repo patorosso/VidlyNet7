@@ -7,14 +7,8 @@
 
 <a asp-controller="Movies" asp-action="Create" class="btn btn-primary text-white" >New Movie</a>
 
-@if (Model.Count == 0)
-{
-    <h2>We don't have any movies yet.</h2>
-}
 
-else
-{
-    <table class="table table-bordered table-hover">
+<table id="movies" class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th>Movies</th>
@@ -22,14 +16,23 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var movie in Model)
-            {
-                <tr>
-                    <td><a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id">@movie.Name</a></td>
-                    <td>@movie.Genre?.Name</td>
-                </tr>
-            }
+            
         </tbody>
     </table>
-}
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const response = await fetch('/api/movies');
+        const movies = await response.json();
+        $('#movies').DataTable({
+            data: movies,
+            columns: [
+                { data: 'name', title: 'Name' },
+                { data: 'genreId', title: 'Genre' }
+            ]
+        });
+    });
+</script>
 
