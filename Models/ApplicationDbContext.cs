@@ -4,6 +4,10 @@ namespace VidlyNet7.Models
 {
     public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext()
+        {
+        }
+
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Customer> Customers => Set<Customer>();
